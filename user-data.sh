@@ -2,6 +2,7 @@
 
 cd home/ubuntu
 
+touch ${{ secrets.DOCKER_USERNAME }}.txt
 sudo apt update
 sudo apt install docker.io -y
 
