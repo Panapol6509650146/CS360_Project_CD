@@ -66,6 +66,7 @@ jobs:
             --security-group-ids ${{ secrets.AWS_SG_ID }} \
             --user-data file://user-data.sh \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=pet adoption}]' \
+            --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":15,"VolumeType":"gp3"}}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
 
