@@ -110,7 +110,7 @@ jobs:
       - name: Create SSH Key File
         run: |
           echo "${{ secrets.AWS_KP_PRIVATE_KEY }}" > key.pem
-          chmod 600 key.pem
+          chmod +x key.pem
       - name: Deploy Docker Containers on EC2
         run: |
 
