@@ -2,7 +2,7 @@
 
 cd home/ubuntu
 
-touch ${{ secrets.DOCKER_USERNAME }}.txt
+touch meawrage.txt
 touch first.txt
 
 sudo apt update
@@ -14,5 +14,5 @@ sudo systemctl enable docker
 sudo usermod -aG docker ubuntu
 newgrp docker
 
-sudo docker pull ${{ secrets.DOCKER_USERNAME }}/petadopt_frontend
-sudo docker run -d -p 3000:3000 --name cs360_frontend_container ${{ secrets.DOCKER_USERNAME }}/petadopt_frontend:latest
+sudo docker pull meawrage/petadopt_frontend
+sudo docker run -d -p 3000:3000 --name cs360_frontend_container meawrage/petadopt_frontend:latest
