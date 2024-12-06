@@ -107,10 +107,21 @@ jobs:
           echo "Docker container deployed successfully."
       
       # Step 4: SSH to EC2 and set up Docker
+      - name: Check SSH Port Accessibility
+        run: |
+          echo "Checking SSH port..."
+          nc -zv ${{ env.INSTANCE_PUBLIC_DNS }} 22 || echo "Port 22 is not open"
+
       - name: Create SSH Key File
         run: |
           echo "${{ secrets.AWS_KP_PRIVATE_KEY }}" > key.pem
           chmod +x key.pem
+
+      - name: Test SSH Connection
+        run: |
+          echo "Testing SSH connection..."
+          ssh -v -o StrictHostKeyChecking=no -i "key.pem" ec2-user@${{ env.INSTANCE_PUBLIC_DNS }}
+          
       - name: Deploy Docker Containers on EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i "key.pem" ec2-user@${{ env.INSTANCE_PUBLIC_DNS }} << 'EOF'
