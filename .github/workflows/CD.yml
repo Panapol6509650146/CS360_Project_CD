@@ -97,6 +97,7 @@ jobs:
             --query 'Reservations[0].Instances[0].PublicDnsName' \
             --output text)
           echo "Instance Public DNS: $INSTANCE_PUBLIC_DNS"
+          echo "INSTANCE_PUBLIC_DNS=$INSTANCE_PUBLIC_DNS" >> $GITHUB_ENV
 
           if [ $? -ne 0 ]; then
             echo "Error: Docker container deployment failed."
@@ -112,11 +113,8 @@ jobs:
           chmod 600 key.pem
       - name: Deploy Docker Containers on EC2
         run: |
-          INSTANCE_PUBLIC_DNS=$(aws ec2 describe-instances \
-            --instance-ids $INSTANCE_ID \
-            --query 'Reservations[0].Instances[0].PublicDnsName' \
-            --output text)
-          ssh -o StrictHostKeyChecking=no -i "key.pem" ec2-user@$INSTANCE_PUBLIC_DNS << 'EOF'
+
+          ssh -o StrictHostKeyChecking=no -i "key.pem" ec2-user@${{ env.INSTANCE_PUBLIC_DNS }} << 'EOF'
 
           sudo apt update
           sudo apt install docker.io -y
